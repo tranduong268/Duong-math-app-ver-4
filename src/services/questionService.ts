@@ -1074,8 +1074,8 @@ export const generateVisualPatternQuestion = (
 interface IconData {
   emoji: ShapeType;
   name: string; // Vietnamese name for explanations
-  primaryCategory: 'animal' | 'plant' | 'food' | 'drink' | 'vehicle' | 'clothing' | 'tool' | 'household' | 'nature' | 'celestial' | 'activity' | 'technology' | 'toy' | 'instrument' | 'building' | 'misc';
-  subCategory?: 'mammal' | 'bird' | 'reptile' | 'amphibian' | 'fish' | 'insect' | 'invertebrate' | 'fruit' | 'vegetable' | 'flower' | 'tree' | 'dish' | 'dessert' | 'furniture' | 'appliance' | 'land_vehicle' | 'water_vehicle' | 'air_vehicle' | 'sports_equipment' | 'school_supply';
+  primaryCategory: 'animal' | 'plant' | 'food' | 'drink' | 'vehicle' | 'clothing' | 'tool' | 'household' | 'nature' | 'celestial' | 'sports' | 'technology' | 'toy' | 'instrument' | 'building' | 'fantasy' | 'misc';
+  subCategory?: 'mammal' | 'bird' | 'reptile' | 'amphibian' | 'fish' | 'insect' | 'invertebrate' | 'fruit' | 'vegetable' | 'flower' | 'tree' | 'dish' | 'dessert' | 'furniture' | 'appliance' | 'land_vehicle' | 'water_vehicle' | 'air_vehicle' | 'sports_equipment' | 'sports_activity' | 'school_supply' | 'construction_tool' | 'kitchen_tool';
   tertiaryCategory?: 'pet' | 'livestock' | 'wild_animal' | 'poultry';
   attributes: {
     is_living_organism?: boolean;
@@ -1086,212 +1086,138 @@ interface IconData {
     diet?: 'carnivore' | 'herbivore' | 'omnivore';
     is_real?: boolean;
     temperature?: 'hot' | 'cold';
-    power_source?: 'electric' | 'manual';
-    function?: 'write' | 'cut' | 'cook' | 'eat' | 'sit' | 'clean';
+    power_source?: 'electric' | 'manual' | 'wind';
+    function?: 'write' | 'cut' | 'cook' | 'eat' | 'sit' | 'clean' | 'wear' | 'play' | 'measure' | 'build';
   }
 }
 
 const ODD_ONE_OUT_ICON_DATA: IconData[] = [
-    // Chủ đề 1: Thế giới Động vật
-    // 1.1 Động vật có vú
+    // --- ANIMALS ---
     { emoji: '🦁', name: 'Sư tử', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'carnivore', is_real: true } },
     { emoji: '🐯', name: 'Hổ', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'carnivore', is_real: true } },
     { emoji: '🐘', name: 'Voi', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
-    { emoji: '🦒', name: 'Hươu cao cổ', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
-    { emoji: '🦓', name: 'Ngựa vằn', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
-    { emoji: '🐵', name: 'Khỉ', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', diet: 'omnivore', is_real: true } },
     { emoji: '🐶', name: 'Chó', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'pet', attributes: { is_living_organism: true, environment: 'land', diet: 'omnivore', is_real: true } },
     { emoji: '🐱', name: 'Mèo', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'pet', attributes: { is_living_organism: true, environment: 'land', diet: 'carnivore', is_real: true } },
-    { emoji: '🐰', name: 'Thỏ', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'pet', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
     { emoji: '🐄', name: 'Bò sữa', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'livestock', attributes: { is_living_organism: true, environment: 'land', is_edible: true, diet: 'herbivore', is_real: true } },
     { emoji: '🐖', name: 'Lợn (Heo)', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'livestock', attributes: { is_living_organism: true, environment: 'land', is_edible: true, diet: 'omnivore', is_real: true } },
-    { emoji: '🐑', name: 'Cừu', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'livestock', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
-    { emoji: '🐴', name: 'Ngựa', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'livestock', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
     { emoji: '🐳', name: 'Cá voi', primaryCategory: 'animal', subCategory: 'mammal', attributes: { is_living_organism: true, environment: 'underwater', is_real: true } },
-    { emoji: '🐬', name: 'Cá heo', primaryCategory: 'animal', subCategory: 'mammal', attributes: { is_living_organism: true, environment: 'underwater', is_real: true } },
-    { emoji: '🦦', name: 'Rái cá', primaryCategory: 'animal', subCategory: 'mammal', attributes: { is_living_organism: true, environment: 'water', is_real: true } },
     { emoji: '🦇', name: 'Con dơi', primaryCategory: 'animal', subCategory: 'mammal', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: true } },
-    
-    // 1.2 Gia cầm & Chim
     { emoji: '🦅', name: 'Đại bàng', primaryCategory: 'animal', subCategory: 'bird', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, diet: 'carnivore', is_real: true } },
-    { emoji: '🦜', name: 'Vẹt', primaryCategory: 'animal', subCategory: 'bird', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: true } },
-    { emoji: '🦉', name: 'Cú mèo', primaryCategory: 'animal', subCategory: 'bird', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, diet: 'carnivore', is_real: true } },
     { emoji: '🐧', name: 'Chim cánh cụt', primaryCategory: 'animal', subCategory: 'bird', attributes: { is_living_organism: true, environment: 'land', can_fly: false, is_real: true } },
     { emoji: '🐓', name: 'Gà', primaryCategory: 'animal', subCategory: 'bird', tertiaryCategory: 'poultry', attributes: { is_living_organism: true, environment: 'land', can_fly: false, is_edible: true, diet: 'omnivore', is_real: true } },
     { emoji: '🦆', name: 'Vịt', primaryCategory: 'animal', subCategory: 'bird', tertiaryCategory: 'poultry', attributes: { is_living_organism: true, environment: 'water', can_fly: true, is_edible: true, is_real: true } },
-    { emoji: '🦢', name: 'Thiên nga', primaryCategory: 'animal', subCategory: 'bird', attributes: { is_living_organism: true, environment: 'water', can_fly: true, is_real: true } },
-
-    // 1.3 Bò sát & Lưỡng cư
     { emoji: '🐊', name: 'Cá sấu', primaryCategory: 'animal', subCategory: 'reptile', attributes: { is_living_organism: true, environment: 'water', diet: 'carnivore', is_real: true } },
     { emoji: '🐢', name: 'Rùa', primaryCategory: 'animal', subCategory: 'reptile', attributes: { is_living_organism: true, environment: 'water', diet: 'herbivore', is_real: true } },
     { emoji: '🐍', name: 'Rắn', primaryCategory: 'animal', subCategory: 'reptile', attributes: { is_living_organism: true, environment: 'land', diet: 'carnivore', is_real: true } },
     { emoji: '🐸', name: 'Ếch', primaryCategory: 'animal', subCategory: 'amphibian', attributes: { is_living_organism: true, environment: 'water', is_real: true } },
-    { emoji: '🦖', name: 'Khủng long', primaryCategory: 'animal', subCategory: 'reptile', tertiaryCategory: 'wild_animal', attributes: { is_living_organism: true, environment: 'land', is_real: false } },
-
-    // 1.4 Động vật nước mặn & Cá
     { emoji: '🦈', name: 'Cá mập', primaryCategory: 'animal', subCategory: 'fish', attributes: { is_living_organism: true, environment: 'underwater', diet: 'carnivore', is_real: true } },
     { emoji: '🐠', name: 'Cá hề', primaryCategory: 'animal', subCategory: 'fish', attributes: { is_living_organism: true, environment: 'underwater', is_edible: true, is_real: true } },
-    { emoji: '🐡', name: 'Cá nóc', primaryCategory: 'animal', subCategory: 'fish', attributes: { is_living_organism: true, environment: 'underwater', is_real: true } },
     { emoji: '🐙', name: 'Bạch tuộc', primaryCategory: 'animal', subCategory: 'invertebrate', attributes: { is_living_organism: true, environment: 'underwater', is_edible: true, is_real: true } },
-    { emoji: '🦑', name: 'Mực', primaryCategory: 'animal', subCategory: 'invertebrate', attributes: { is_living_organism: true, environment: 'underwater', is_edible: true, is_real: true } },
-    { emoji: '🦞', name: 'Tôm hùm', primaryCategory: 'animal', subCategory: 'invertebrate', attributes: { is_living_organism: true, environment: 'underwater', is_edible: true, is_real: true } },
-    { emoji: '🦀', name: 'Cua', primaryCategory: 'animal', subCategory: 'invertebrate', attributes: { is_living_organism: true, environment: 'water', is_edible: true, is_real: true } },
-    { emoji: '🍣', name: 'Sashimi', primaryCategory: 'food', subCategory: 'dish', attributes: { is_edible: true, temperature: 'cold' } },
-
-    // 1.5 Côn trùng
     { emoji: '🦋', name: 'Bướm', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: true } },
-    { emoji: '🐝', name: 'Ong', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: true } },
-    { emoji: '🐞', name: 'Bọ rùa', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'land', can_fly: true, is_real: true } },
     { emoji: '🐜', name: 'Kiến', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'land', can_fly: false, is_real: true } },
-    { emoji: '🦗', name: 'Dế', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'land', can_fly: false, is_real: true } },
-    { emoji: '🕷️', name: 'Nhện', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'land', can_fly: false, is_real: true } },
-    { emoji: '🐌', name: 'Ốc sên', primaryCategory: 'animal', subCategory: 'invertebrate', attributes: { is_living_organism: true, environment: 'land', diet: 'herbivore', is_real: true } },
-    { emoji: '🐛', name: 'Sâu', primaryCategory: 'animal', subCategory: 'insect', attributes: { is_living_organism: true, environment: 'land', can_fly: false, diet: 'herbivore', is_real: true } },
 
-    // Động vật hư cấu
-    { emoji: '🦄', name: 'Kỳ lân', primaryCategory: 'animal', subCategory: 'mammal', attributes: { is_living_organism: true, environment: 'land', is_real: false } },
-    { emoji: '🐲', name: 'Rồng', primaryCategory: 'animal', subCategory: 'reptile', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: false } },
-
-    // Chủ đề 2: Thế giới Thực vật
-    { emoji: '🍎', name: 'Táo', primaryCategory: 'plant', subCategory: 'fruit', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍌', name: 'Chuối', primaryCategory: 'plant', subCategory: 'fruit', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍓', name: 'Dâu tây', primaryCategory: 'plant', subCategory: 'fruit', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍇', name: 'Nho', primaryCategory: 'plant', subCategory: 'fruit', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🥕', name: 'Cà rốt', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🥦', name: 'Bông cải xanh', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🌽', name: 'Bắp (Ngô)', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍅', name: 'Cà chua', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🥔', name: 'Khoai tây', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🧅', name: 'Hành tây', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🌶️', name: 'Ớt', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: false, temperature: 'hot' } },
-    { emoji: '🍄', name: 'Nấm', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: true } },
+    // --- PLANTS ---
+    { emoji: '🍎', name: 'Táo', primaryCategory: 'plant', subCategory: 'fruit', attributes: { is_edible: true, is_living_organism: true } },
+    { emoji: '🥕', name: 'Cà rốt', primaryCategory: 'plant', subCategory: 'vegetable', attributes: { is_edible: true, is_living_organism: true } },
     { emoji: '🌹', name: 'Hoa hồng', primaryCategory: 'plant', subCategory: 'flower', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌻', name: 'Hoa hướng dương', primaryCategory: 'plant', subCategory: 'flower', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌷', name: 'Hoa Tulip', primaryCategory: 'plant', subCategory: 'flower', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌸', name: 'Hoa anh đào', primaryCategory: 'plant', subCategory: 'flower', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌼', name: 'Hoa cúc', primaryCategory: 'plant', subCategory: 'flower', attributes: { is_living_organism: true, is_edible: false } },
     { emoji: '🌳', name: 'Cây xanh', primaryCategory: 'plant', subCategory: 'tree', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌲', name: 'Cây thông', primaryCategory: 'plant', subCategory: 'tree', attributes: { is_living_organism: true, is_edible: false } },
-    { emoji: '🌴', name: 'Cây dừa', primaryCategory: 'plant', subCategory: 'tree', attributes: { is_living_organism: true } },
-    { emoji: '🌵', name: 'Cây xương rồng', primaryCategory: 'plant', subCategory: 'tree', attributes: { is_living_organism: true } },
-    { emoji: '🎋', name: 'Cây tre', primaryCategory: 'plant', subCategory: 'tree', attributes: { is_living_organism: true } },
-    
-    // Chủ đề 3: Ẩm thực & Đồ uống
+    { emoji: '🍄', name: 'Nấm', primaryCategory: 'plant', attributes: { is_edible: true, is_living_organism: true } },
+
+    // --- FOOD & DRINK ---
     { emoji: '🍔', name: 'Hamburger', primaryCategory: 'food', subCategory: 'dish', attributes: { is_edible: true, is_living_organism: false } },
     { emoji: '🍕', name: 'Pizza', primaryCategory: 'food', subCategory: 'dish', attributes: { is_edible: true, is_living_organism: false } },
     { emoji: '🎂', name: 'Bánh kem', primaryCategory: 'food', subCategory: 'dessert', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍩', name: 'Bánh donut', primaryCategory: 'food', subCategory: 'dessert', attributes: { is_edible: true, is_living_organism: false } },
     { emoji: '🍦', name: 'Kem', primaryCategory: 'food', subCategory: 'dessert', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🧊', name: 'Đá viên', primaryCategory: 'misc', attributes: { temperature: 'cold', is_living_organism: false } },
     { emoji: '☕', name: 'Cà phê', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'hot', is_living_organism: false } },
     { emoji: '🥛', name: 'Sữa', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🧃', name: 'Hộp sữa', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🥤', name: 'Nước ngọt', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
     { emoji: '🥃', name: 'Cốc nước', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🍺', name: 'Bia', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🍷', name: 'Rượu vang', primaryCategory: 'drink', attributes: { is_edible: true, is_living_organism: false } },
-    { emoji: '🍸', name: 'Cocktail', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
-    { emoji: '🍾', name: 'Champagne', primaryCategory: 'drink', attributes: { is_edible: true, temperature: 'cold', is_living_organism: false } },
 
-    // Chủ đề 4: Phương tiện
-    { emoji: '🚗', name: 'Ô tô con', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road' } },
-    { emoji: '🚌', name: 'Xe buýt', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road' } },
-    { emoji: '🚑', name: 'Xe cứu thương', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road' } },
-    { emoji: '🚒', name: 'Xe cứu hỏa', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road' } },
+    // --- VEHICLES ---
+    { emoji: '🚗', name: 'Ô tô con', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road', power_source: 'manual' } },
+    { emoji: '🚌', name: 'Xe buýt', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road', power_source: 'manual' } },
     { emoji: '🚲', name: 'Xe đạp', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'road', power_source: 'manual' } },
     { emoji: '🚂', name: 'Tàu hỏa', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'rail' } },
-    { emoji: '🚇', name: 'Tàu điện ngầm', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'rail' } },
-    { emoji: '🚄', name: 'Tàu cao tốc', primaryCategory: 'vehicle', subCategory: 'land_vehicle', attributes: { is_living_organism: false, environment: 'land', propulsion: 'rail' } },
     { emoji: '✈️', name: 'Máy bay', primaryCategory: 'vehicle', subCategory: 'air_vehicle', attributes: { is_living_organism: false, environment: 'sky', can_fly: true } },
     { emoji: '🚁', name: 'Trực thăng', primaryCategory: 'vehicle', subCategory: 'air_vehicle', attributes: { is_living_organism: false, environment: 'sky', can_fly: true } },
     { emoji: '🚀', name: 'Tên lửa', primaryCategory: 'vehicle', subCategory: 'air_vehicle', attributes: { is_living_organism: false, environment: 'space', can_fly: true } },
     { emoji: '🚢', name: 'Tàu thủy', primaryCategory: 'vehicle', subCategory: 'water_vehicle', attributes: { is_living_organism: false, environment: 'water' } },
-    { emoji: '⛵', name: 'Thuyền buồm', primaryCategory: 'vehicle', subCategory: 'water_vehicle', attributes: { is_living_organism: false, environment: 'water', power_source: 'manual' } },
-    { emoji: '🚤', name: 'Ca nô', primaryCategory: 'vehicle', subCategory: 'water_vehicle', attributes: { is_living_organism: false, environment: 'water' } },
-    { emoji: '🛸', name: 'Đĩa bay UFO', primaryCategory: 'vehicle', subCategory: 'air_vehicle', attributes: { is_living_organism: false, environment: 'sky', can_fly: true, is_real: false } },
+    { emoji: '⛵', name: 'Thuyền buồm', primaryCategory: 'vehicle', subCategory: 'water_vehicle', attributes: { is_living_organism: false, environment: 'water', power_source: 'wind' } },
+    
+    // --- CLOTHING ---
+    { emoji: '👕', name: 'Áo', primaryCategory: 'clothing', attributes: { is_living_organism: false, function: 'wear' } },
+    { emoji: '👖', name: 'Quần', primaryCategory: 'clothing', attributes: { is_living_organism: false, function: 'wear' } },
+    { emoji: '👗', name: 'Váy', primaryCategory: 'clothing', attributes: { is_living_organism: false, function: 'wear' } },
+    { emoji: '👟', name: 'Giày', primaryCategory: 'clothing', attributes: { is_living_organism: false, function: 'wear' } },
 
-    // Trang phục
-    { emoji: '👕', name: 'Áo', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👖', name: 'Quần', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👗', name: 'Váy', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👟', name: 'Giày', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👢', name: 'Ủng', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👡', name: 'Dép', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👠', name: 'Guốc', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '🧢', name: 'Mũ', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '🧣', name: 'Khăn quàng', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-    { emoji: '👜', name: 'Túi xách', primaryCategory: 'clothing', attributes: { is_living_organism: false } },
-
-    // Chủ đề 5: Đồ vật & Thiết bị
+    // --- TOOLS ---
     { emoji: '✏️', name: 'Bút chì', primaryCategory: 'tool', subCategory: 'school_supply', attributes: { is_living_organism: false, power_source: 'manual', function: 'write' } },
-    { emoji: '🖋️', name: 'Bút mực', primaryCategory: 'tool', subCategory: 'school_supply', attributes: { is_living_organism: false, power_source: 'manual', function: 'write' } },
-    { emoji: '📏', name: 'Thước kẻ', primaryCategory: 'tool', subCategory: 'school_supply', attributes: { is_living_organism: false, power_source: 'manual' } },
-    { emoji: '📖', name: 'Vở viết', primaryCategory: 'tool', subCategory: 'school_supply', attributes: { is_living_organism: false, power_source: 'manual' } },
+    { emoji: '📏', name: 'Thước kẻ', primaryCategory: 'tool', subCategory: 'school_supply', attributes: { is_living_organism: false, power_source: 'manual', function: 'measure' } },
+    { emoji: '✂️', name: 'Kéo', primaryCategory: 'tool', subCategory: 'kitchen_tool', attributes: { is_living_organism: false, power_source: 'manual', function: 'cut' } },
+    { emoji: '🔪', name: 'Dao', primaryCategory: 'tool', subCategory: 'kitchen_tool', attributes: { is_living_organism: false, power_source: 'manual', function: 'cut' } },
+    { emoji: '🔨', name: 'Búa', primaryCategory: 'tool', subCategory: 'construction_tool', attributes: { is_living_organism: false, power_source: 'manual', function: 'build' } },
+
+    // --- HOUSEHOLD ---
     { emoji: '🛋️', name: 'Ghế sofa', primaryCategory: 'household', subCategory: 'furniture', attributes: { is_living_organism: false, environment: 'indoor', function: 'sit' } },
-    { emoji: '🪑', name: 'Ghế đẩu', primaryCategory: 'household', subCategory: 'furniture', attributes: { is_living_organism: false, environment: 'indoor', function: 'sit' } },
     { emoji: '🛏️', name: 'Giường', primaryCategory: 'household', subCategory: 'furniture', attributes: { is_living_organism: false, environment: 'indoor', function: 'sit' } },
     { emoji: '🛁', name: 'Bồn tắm', primaryCategory: 'household', subCategory: 'furniture', attributes: { is_living_organism: false, environment: 'indoor', function: 'clean' } },
-    { emoji: '🔪', name: 'Dao ăn', primaryCategory: 'tool', attributes: { is_living_organism: false, function: 'cut', power_source: 'manual' } },
-    { emoji: '🍴', name: 'Dĩa', primaryCategory: 'tool', attributes: { is_living_organism: false, function: 'eat', power_source: 'manual' } },
-    { emoji: '🥄', name: 'Thìa', primaryCategory: 'tool', attributes: { is_living_organism: false, function: 'eat', power_source: 'manual' } },
-    { emoji: '🥢', name: 'Đũa', primaryCategory: 'tool', attributes: { is_living_organism: false, function: 'eat', power_source: 'manual' } },
-    { emoji: '🍳', name: 'Chảo', primaryCategory: 'household', attributes: { is_living_organism: false, function: 'cook', environment: 'indoor' } },
     { emoji: '🧹', name: 'Chổi', primaryCategory: 'household', attributes: { is_living_organism: false, function: 'clean', power_source: 'manual' } },
-    { emoji: '🚽', name: 'Bồn cầu', primaryCategory: 'household', subCategory: 'furniture', attributes: { is_living_organism: false, environment: 'indoor' } },
+    
+    // --- TECHNOLOGY ---
     { emoji: '📱', name: 'Điện thoại', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
-    { emoji: '💻', name: 'Máy tính xách tay', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
-    { emoji: '🖥️', name: 'Máy tính để bàn', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
-    { emoji: '🖱️', name: 'Chuột máy tính', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
+    { emoji: '💻', name: 'Máy tính', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
     { emoji: '📷', name: 'Máy ảnh', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
     { emoji: '🔌', name: 'Phích cắm', primaryCategory: 'technology', attributes: { is_living_organism: false, power_source: 'electric' } },
 
-    // Chủ đề 6: Các chủ đề khác
-    { emoji: '⚽', name: 'Bóng đá', primaryCategory: 'toy', subCategory: 'sports_equipment', attributes: { is_living_organism: false } },
-    { emoji: '🏀', name: 'Bóng rổ', primaryCategory: 'toy', subCategory: 'sports_equipment', attributes: { is_living_organism: false } },
-    { emoji: '🎾', name: 'Bóng tennis', primaryCategory: 'toy', subCategory: 'sports_equipment', attributes: { is_living_organism: false } },
-    { emoji: '🏐', name: 'Bóng chuyền', primaryCategory: 'toy', subCategory: 'sports_equipment', attributes: { is_living_organism: false } },
-    { emoji: '🏸', name: 'Cầu lông', primaryCategory: 'toy', subCategory: 'sports_equipment', attributes: { is_living_organism: false } },
-    { emoji: '🏃', name: 'Chạy bộ', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏊', name: 'Bơi lội', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏋️', name: 'Cử tạ', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🧘', name: 'Yoga', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏂', name: 'Trượt tuyết', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🧗', name: 'Leo núi', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🚣', name: 'Chèo thuyền', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🚴', name: 'Đạp xe', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏄', name: 'Lướt ván', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏇', name: 'Đua ngựa', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🪂', name: 'Nhảy dù', primaryCategory: 'activity', attributes: {} },
-    { emoji: '🏌️', name: 'Đánh golf', primaryCategory: 'activity', attributes: {} },
+    // --- SPORTS (UNIFIED CATEGORY) ---
+    { emoji: '⚽', name: 'Bóng đá', primaryCategory: 'sports', subCategory: 'sports_equipment', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🏀', name: 'Bóng rổ', primaryCategory: 'sports', subCategory: 'sports_equipment', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🎾', name: 'Bóng tennis', primaryCategory: 'sports', subCategory: 'sports_equipment', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🎯', name: 'Phi tiêu', primaryCategory: 'sports', subCategory: 'sports_equipment', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🏃', name: 'Chạy bộ', primaryCategory: 'sports', subCategory: 'sports_activity', attributes: { power_source: 'manual' } },
+    { emoji: '🏊', name: 'Bơi lội', primaryCategory: 'sports', subCategory: 'sports_activity', attributes: { power_source: 'manual' } },
+    { emoji: '🚴', name: 'Đạp xe', primaryCategory: 'sports', subCategory: 'sports_activity', attributes: { power_source: 'manual' } },
+    
+    // --- MUSICAL INSTRUMENTS ---
+    { emoji: '🎸', name: 'Đàn guitar', primaryCategory: 'instrument', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🎹', name: 'Đàn piano', primaryCategory: 'instrument', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🥁', name: 'Trống', primaryCategory: 'instrument', attributes: { is_living_organism: false, power_source: 'manual', function: 'play' } },
+    { emoji: '🎤', name: 'Microphone', primaryCategory: 'instrument', attributes: { is_living_organism: false, power_source: 'electric', function: 'play' } },
 
-    { emoji: '🏠', name: 'Nhà ở', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🏥', name: 'Bệnh viện', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🏫', name: 'Trường học', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🏰', name: 'Lâu đài', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🗼', name: 'Tháp Eiffel', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🗽', name: 'Tượng Nữ thần Tự do', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '🌉', name: 'Cầu', primaryCategory: 'building', attributes: { environment: 'land' } },
-    { emoji: '☀️', name: 'Mặt trời', primaryCategory: 'celestial', attributes: { temperature: 'hot' } },
-    { emoji: '🌙', name: 'Mặt trăng', primaryCategory: 'celestial', attributes: { temperature: 'cold' } },
-    { emoji: '⭐', name: 'Ngôi sao', primaryCategory: 'celestial', attributes: { temperature: 'hot' } },
-    { emoji: '🌍', name: 'Trái đất', primaryCategory: 'celestial', attributes: {} },
-    { emoji: '🪐', name: 'Hành tinh', primaryCategory: 'celestial', attributes: {} },
-    { emoji: '🔥', name: 'Lửa', primaryCategory: 'nature', attributes: { temperature: 'hot' } },
-    { emoji: '❄️', name: 'Bông tuyết', primaryCategory: 'nature', attributes: { temperature: 'cold' } },
+    // --- CELESTIAL & NATURE ---
+    { emoji: '☀️', name: 'Mặt trời', primaryCategory: 'celestial', attributes: { temperature: 'hot', is_real: true, is_living_organism: false } },
+    { emoji: '🌙', name: 'Mặt trăng', primaryCategory: 'celestial', attributes: { temperature: 'cold', is_real: true, is_living_organism: false } },
+    { emoji: '⭐', name: 'Ngôi sao', primaryCategory: 'celestial', attributes: { temperature: 'hot', is_real: true, is_living_organism: false } },
+    { emoji: '🌍', name: 'Trái đất', primaryCategory: 'celestial', attributes: { is_real: true, is_living_organism: false } },
+    { emoji: '🔥', name: 'Lửa', primaryCategory: 'nature', attributes: { temperature: 'hot', is_real: true, is_living_organism: false } },
+    { emoji: '❄️', name: 'Bông tuyết', primaryCategory: 'nature', attributes: { temperature: 'cold', is_real: true, is_living_organism: false } },
+    { emoji: '🌊', name: 'Sóng biển', primaryCategory: 'nature', attributes: { is_real: true, is_living_organism: false, environment: 'water' } },
+
+    // --- BUILDINGS ---
+    { emoji: '🏠', name: 'Nhà ở', primaryCategory: 'building', attributes: { environment: 'land', is_living_organism: false } },
+    { emoji: '🏥', name: 'Bệnh viện', primaryCategory: 'building', attributes: { environment: 'land', is_living_organism: false } },
+    { emoji: '🏫', name: 'Trường học', primaryCategory: 'building', attributes: { environment: 'land', is_living_organism: false } },
+    { emoji: '🌉', name: 'Cầu', primaryCategory: 'building', attributes: { environment: 'land', is_living_organism: false } },
+
+    // --- FANTASY ---
+    { emoji: '🦄', name: 'Kỳ lân', primaryCategory: 'fantasy', subCategory: 'mammal', attributes: { is_living_organism: true, environment: 'land', is_real: false } },
+    { emoji: '🐲', name: 'Rồng', primaryCategory: 'fantasy', subCategory: 'reptile', attributes: { is_living_organism: true, environment: 'sky', can_fly: true, is_real: false } },
+    { emoji: '👻', name: 'Con ma', primaryCategory: 'fantasy', attributes: { is_living_organism: false, is_real: false, can_fly: true } },
+    { emoji: '🤖', name: 'Robot', primaryCategory: 'fantasy', attributes: { is_living_organism: false, is_real: false, power_source: 'electric' } },
+    { emoji: '👽', name: 'Người ngoài hành tinh', primaryCategory: 'fantasy', attributes: { is_living_organism: true, is_real: false } },
 ];
 
 
 type OddOneOutRule = keyof IconData['attributes'] | 'primaryCategory' | 'subCategory' | 'tertiaryCategory';
 
 const M_RULES: OddOneOutRule[] = [ 'primaryCategory', 'environment' ];
-const C_RULES: OddOneOutRule[] = [ 'primaryCategory', 'environment', 'is_edible', 'propulsion', 'can_fly', 'diet', 'is_real', 'is_living_organism', 'temperature', 'power_source', 'subCategory', 'function' ];
-const RULE_HIERARCHY_FOR_TESTING: OddOneOutRule[] = [ 'primaryCategory', 'is_living_organism', 'is_real', 'environment', 'propulsion', 'is_edible', 'can_fly', 'diet', 'temperature', 'power_source', 'subCategory', 'tertiaryCategory', 'function' ];
+const C_RULES: OddOneOutRule[] = [ 'primaryCategory', 'environment', 'is_edible', 'propulsion', 'can_fly', 'is_real', 'is_living_organism', 'temperature', 'power_source', 'subCategory', 'function' ];
+const RULE_HIERARCHY_FOR_TESTING: OddOneOutRule[] = [ 'primaryCategory', 'is_living_organism', 'is_real', 'environment', 'subCategory', 'power_source', 'is_edible', 'can_fly', 'propulsion', 'function', 'temperature', 'tertiaryCategory' ];
 
-const VIETNAMESE_ENV_NAMES = {
+const VIETNAMESE_ENV_NAMES: Record<string, string> = {
     land: 'trên cạn',
-    water: 'dưới nước',
+    water: 'ở môi trường nước',
     sky: 'trên trời',
-    underwater: 'dưới biển',
+    underwater: 'sống dưới biển',
     indoor: 'trong nhà',
     space: 'ngoài không gian',
 };
@@ -1300,14 +1226,14 @@ const VIETNAMESE_NAMES: Record<string, string> = {
     // Primary Categories
     animal: 'động vật', plant: 'thực vật', food: 'đồ ăn',
     drink: 'đồ uống', vehicle: 'phương tiện', clothing: 'quần áo', tool: 'dụng cụ', household: 'đồ dùng gia đình',
-    activity: 'hoạt động', technology: 'đồ công nghệ', toy: 'đồ chơi', instrument: 'nhạc cụ',
-    nature: 'tự nhiên', celestial: 'thiên thể', building: 'công trình', misc: 'vật khác',
+    sports: 'thể thao', technology: 'đồ công nghệ', toy: 'đồ chơi', instrument: 'nhạc cụ',
+    nature: 'tự nhiên', celestial: 'thiên thể', building: 'công trình', fantasy: 'vật hư cấu', misc: 'vật khác',
     // Sub Categories
     mammal: 'động vật có vú', bird: 'loài chim', reptile: 'loài bò sát', fish: 'loài cá', insect: 'côn trùng',
     fruit: 'trái cây', vegetable: 'rau củ', flower: 'loài hoa', tree: 'loại cây',
     dish: 'món ăn', dessert: 'món tráng miệng',
     land_vehicle: 'phương tiện đường bộ', water_vehicle: 'phương tiện đường thủy', air_vehicle: 'phương tiện đường không',
-    school_supply: 'dụng cụ học tập', furniture: 'đồ nội thất',
+    school_supply: 'dụng cụ học tập', furniture: 'đồ nội thất', sports_equipment: 'dụng cụ thể thao', sports_activity: 'hoạt động thể thao',
     // Tertiary Categories
     pet: 'thú cưng', livestock: 'gia súc', wild_animal: 'động vật hoang dã', poultry: 'gia cầm',
     // Propulsion
@@ -1317,9 +1243,10 @@ const VIETNAMESE_NAMES: Record<string, string> = {
     // Temperature
     hot: 'nóng', cold: 'lạnh',
     // Power Source
-    electric: 'vật dụng dùng điện', manual: 'vật dụng hoạt động bằng sức người',
+    electric: 'vật dụng dùng điện', manual: 'vật dụng hoạt động bằng sức người', wind: 'hoạt động bằng sức gió',
     // Function
     write: 'dùng để viết', cut: 'dùng để cắt', cook: 'dùng để nấu', eat: 'dùng để ăn', sit: 'dùng để ngồi/nằm', clean: 'dùng để dọn dẹp',
+    wear: 'dùng để mặc', play: 'dùng để chơi', measure: 'dùng để đo', build: 'dùng để xây dựng',
 };
 
 function generateExplanation(rule: OddOneOutRule, majorityValue: any, oddItemData: IconData, majorityItems: IconData[]): string {
@@ -1330,7 +1257,7 @@ function generateExplanation(rule: OddOneOutRule, majorityValue: any, oddItemDat
         const categoryName = VIETNAMESE_NAMES[ruleKey] || 'nhóm chung';
         const oddCategoryValue = getRuleValue(oddItemData, rule);
         const oddCategoryName = VIETNAMESE_NAMES[oddCategoryValue as keyof typeof VIETNAMESE_NAMES] || 'nhóm khác';
-        return `Vì các vật còn lại là ${categoryName}, còn ${oddEmoji} là ${oddCategoryName}.`;
+        return `Vì các vật còn lại đều là ${categoryName}, còn ${oddEmoji} là ${oddCategoryName}.`;
     }
     if (rule === 'environment') {
         const areMajorityLiving = majorityItems.every(item => item.attributes.is_living_organism === true);
@@ -1339,10 +1266,10 @@ function generateExplanation(rule: OddOneOutRule, majorityValue: any, oddItemDat
         return `Vì các vật còn lại ${verb} ${location}, còn ${oddEmoji} (${oddName}) thì khác.`;
     }
     if (rule === 'power_source') {
-        if (majorityValue === 'manual') { // Majority is manual, odd one is electric/other
+        if (majorityValue === 'manual') {
             return `Vì các vật còn lại hoạt động bằng sức người, còn ${oddEmoji} (${oddName}) là vật dụng dùng điện.`;
         }
-        if (majorityValue === 'electric') { // Majority is electric, odd one is manual/other
+        if (majorityValue === 'electric') {
             return `Vì các vật còn lại là vật dụng dùng điện, còn ${oddEmoji} (${oddName}) hoạt động bằng sức người.`;
         }
     }
@@ -1360,7 +1287,7 @@ function generateExplanation(rule: OddOneOutRule, majorityValue: any, oddItemDat
         return `Vì các vật còn lại đều là ${majorityDescription}, còn ${oddEmoji} (${oddName}) thì khác.`;
     }
     if (rule === 'is_real') {
-        return majorityValue ? `Vì chỉ có ${oddEmoji} (${oddName}) là nhân vật hư cấu.` : `Vì chỉ có ${oddEmoji} (${oddName}) là có thật.`;
+        return majorityValue ? `Vì chỉ có ${oddEmoji} (${oddName}) là nhân vật/vật hư cấu.` : `Vì chỉ có ${oddEmoji} (${oddName}) là có thật.`;
     }
     return `Vì ${oddEmoji} là vật khác biệt.`;
 }
@@ -1431,13 +1358,10 @@ export const generateOddOneOutQuestion = (
         candidateSet = [...majorityItems, oddItem];
         if (candidateSet.length !== numOptions) continue;
 
-        // NEW: Homogeneity Check. A good question's majority items should be from the same primary category
-        // unless the rule itself is about the primary category.
         if (mainRule !== 'primaryCategory') {
             const firstPrimaryCategory = majorityItems[0].primaryCategory;
-            const isHomogenous = majorityItems.every(item => item.primaryCategory === firstPrimaryCategory);
-            if (!isHomogenous) {
-                continue; // Majority group is not homogenous by primary category, reject question
+            if (!majorityItems.every(item => item.primaryCategory === firstPrimaryCategory)) {
+                continue; 
             }
         }
 
@@ -1458,7 +1382,7 @@ export const generateOddOneOutQuestion = (
             for (const icon of candidateSet) {
                 let value = getRuleValue(icon, testRule);
                 if (isBooleanRule && value === undefined) {
-                    value = false; // Treat missing boolean attributes as false for grouping
+                    value = false;
                 }
 
                  if (value !== undefined) {

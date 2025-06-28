@@ -40,7 +40,6 @@ export const NUMBER_RECOGNITION_ICON = '🧐';
 export const MATCHING_PAIRS_ICON = '🔗';
 export const NUMBER_SEQUENCE_ICONS: string[] = ['📊', '📈', '📉', '🔢']; 
 export const VISUAL_PATTERN_ICON = '🖼️'; 
-export const ODD_ONE_OUT_ICONS_RANDOM: string[] = ['🔍', '🔎', '🤔', '🧐', '💡', '❓', '🧩']; // New random icons for Odd One Out
 export const REVIEW_ICON = '📝';
 
 
