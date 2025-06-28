@@ -76,7 +76,7 @@ export const INITIAL_COUNTING_ICONS: ShapeType[] = [
   // Tools (ensure no problematic ones)
   '🔨', '🔧', '🔩', '🛠️', 
   // Nature
-  '🌳', '🌲', '🌿', '🌸', '🌻', '🍁', '🔥', '💧', '🌍', '☀️',
+  '🌳', '🌲', '🌿', '🌸', '🌻', '🍁', '🔥', '🥃', '🌍', '☀️',
   '🌙', /*'⭐',*/ '🌈', '🌊', '🌋', '⛰️', '🌵', '🌷', '🌹', '🌼',
   // Food (More)
   '🍕', '🍔', '🍟', '🌭', '🥪', '🥨', '🥐', '🥞', '🧇', '🍳',
@@ -147,7 +147,7 @@ export const INITIAL_COUNTING_ICONS: ShapeType[] = [
   '🚽', // Toilet
   '🪞', // Mirror
   '🏺', // Amphora
-  '𪟟', // Window
+  '🪟', // Window
   '🧱', // Brick
   '📦', // Package
   // Clothing & Accessories (more detail)
