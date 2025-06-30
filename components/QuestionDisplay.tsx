@@ -4,9 +4,10 @@ import { Question, MathQuestion, ComparisonQuestion, CountingQuestion, NumberRec
 import { useAudio } from '../src/contexts/AudioContext';
 
 // Helper component to render a single visual element with transformations
-const VisualContentDisplay: React.FC<{ content: VisualContent }> = ({ content }) => {
+const VisualContentDisplay: React.FC<{ content: VisualContent, isMatrix?: boolean }> = ({ content, isMatrix }) => {
+    const sizeClass = isMatrix ? 'text-4xl md:text-5xl' : 'text-4xl md:text-5xl lg:text-6xl';
     if (typeof content === 'string') {
-        return <span className="text-4xl md:text-5xl lg:text-6xl">{content}</span>;
+        return <span className={sizeClass}>{content}</span>;
     }
 
     const style: React.CSSProperties = {
@@ -19,12 +20,12 @@ const VisualContentDisplay: React.FC<{ content: VisualContent }> = ({ content })
         transition: 'transform 0.3s ease-in-out',
     };
 
-    return <span className="text-4xl md:text-5xl lg:text-6xl" style={style}>{content.emoji}</span>;
+    return <span className={sizeClass} style={style}>{content.emoji}</span>;
 };
 
 
 // Helper component to render one step of a visual pattern
-const PatternStepDisplay: React.FC<{ step: PatternDisplayStep, isOption?: boolean }> = ({ step, isOption }) => {
+const PatternStepDisplay: React.FC<{ step: PatternDisplayStep, isOption?: boolean, isMatrix?: boolean }> = ({ step, isOption, isMatrix }) => {
     // If it's a grid-based step
     if (typeof step === 'object' && 'gridSize' in step) {
         const gridStyle: React.CSSProperties = {
@@ -54,7 +55,7 @@ const PatternStepDisplay: React.FC<{ step: PatternDisplayStep, isOption?: boolea
     }
     
     // If it's a simple or transformed content (not in a grid)
-    return <VisualContentDisplay content={step as VisualContent} />;
+    return <VisualContentDisplay content={step as VisualContent} isMatrix={isMatrix} />;
 };
 
 
@@ -557,15 +558,72 @@ const renderVisualPatternQuestion = (q: VisualPatternQuestion) => {
     const correctOption = q.options.find(opt => opt.isCorrect);
     const answeredCorrectly = disabled && lastAnswer === correctOption?.id;
 
+    if (q.ruleType === 'C_MATRIX_LOGIC_2X2') {
+        return (
+            <div className="flex flex-col items-center w-full">
+                <p className="text-xl md:text-2xl font-semibold text-gray-700 mb-3 text-center">{q.promptText}</p>
+                {/* 2x2 Grid */}
+                <div className="grid grid-cols-2 gap-2 p-2 bg-sky-100 rounded-lg w-fit mb-4 shadow-inner">
+                    {/* Top Left */}
+                    <div className="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center bg-white rounded-md shadow">
+                        <PatternStepDisplay step={q.displayedSequence[0]!} isMatrix={true} />
+                    </div>
+                    {/* Top Right */}
+                    <div className="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center bg-white rounded-md shadow">
+                        <PatternStepDisplay step={q.displayedSequence[1]!} isMatrix={true} />
+                    </div>
+                    {/* Bottom Left */}
+                    <div className="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center bg-white rounded-md shadow">
+                        <PatternStepDisplay step={q.displayedSequence[2]!} isMatrix={true} />
+                    </div>
+                    {/* Bottom Right (The blank) */}
+                    <div className="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center bg-white/70 rounded-md shadow border-2 border-dashed border-pink-400">
+                        <span className="text-4xl text-pink-500 font-bold">?</span>
+                    </div>
+                </div>
+
+                {/* Options Display */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mt-2 w-full max-w-xl">
+                    {q.options.map((option) => (
+                        <button
+                            key={option.id}
+                            onClick={() => handleOptionClick(option.id)}
+                            disabled={disabled}
+                            className={`p-4 rounded-lg shadow-md font-semibold transition-all transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed
+                                ${disabled && option.isCorrect ? 'bg-green-300 text-green-700 ring-4 ring-green-500' : 
+                                 disabled && !option.isCorrect && lastAnswer === option.id ? 'bg-red-300 text-red-700 ring-4 ring-red-500' :
+                                 'bg-sky-200 hover:bg-sky-300 text-sky-700'}
+                                 min-h-[90px] md:min-h-[110px] flex items-center justify-center`}
+                            aria-label={`Lựa chọn`}
+                        >
+                            <PatternStepDisplay step={option.display} isOption={true} />
+                        </button>
+                    ))}
+                </div>
+
+                {answeredCorrectly && q.explanation && (
+                    <div className="mt-4 w-full text-center max-w-xl">
+                        <p className="text-base md:text-lg font-medium text-green-800 bg-green-100 p-3 rounded-lg shadow-inner">
+                            {q.explanation}
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+
     return (
         <div className="flex flex-col items-center w-full">
             <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-700 mb-3 text-center">{q.promptText}</p>
             {/* Sequence Display */}
             <div className="mb-4 flex flex-wrap items-center justify-center gap-2 md:gap-3 p-2 bg-sky-100 rounded-lg min-h-[80px] w-full max-w-full overflow-x-auto">
-                {q.displayedSequence.map((step, index) => (
-                    <PatternStepDisplay key={index} step={step} />
-                ))}
-                <span className="text-4xl md:text-5xl p-1 text-pink-500 font-bold select-none self-center">?</span>
+                {q.displayedSequence.map((step, index) => {
+                    if (step === null) {
+                        return <span key={`blank-${index}`} className="text-4xl md:text-5xl p-1 text-pink-500 font-bold select-none self-center">?</span>;
+                    }
+                    return <PatternStepDisplay key={index} step={step} />;
+                })}
             </div>
 
             {/* Options Display */}

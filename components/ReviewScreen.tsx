@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { StoredSession, Question, MathQuestion, ComparisonQuestion, CountingQuestion, NumberRecognitionQuestion, MatchingPairsQuestion, GameMode, NumberRecognitionOption, ShapeType, NumberSequenceQuestion, VisualPatternQuestion, VisualPatternOption, OddOneOutQuestion, OddOneOutOption, PatternDisplayStep, VisualContent } from '../types'; 
-import { COMPARISON_ICON, COUNTING_ICON, NUMBER_RECOGNITION_ICON, MATCHING_PAIRS_ICON, NUMBER_SEQUENCE_ICONS, VISUAL_PATTERN_ICON } from '../constants';
+import { COMPARISON_ICON, COUNTING_ICON, NUMBER_RECOGNITION_ICON, MATCHING_PAIRS_ICON, NUMBER_SEQUENCE_ICONS, VISUAL_PATTERN_ICON, ODD_ONE_OUT_ICONS_RANDOM } from '../constants';
 
 // Helper component to render a single visual element with transformations (for Review)
 const VisualContentDisplayReview: React.FC<{ content: VisualContent }> = ({ content }) => {
@@ -44,7 +45,7 @@ const getModeIcon = (mode: GameMode): string => {
     case GameMode.MATCHING_PAIRS: return MATCHING_PAIRS_ICON;
     case GameMode.NUMBER_SEQUENCE: return NUMBER_SEQUENCE_ICONS[0]; 
     case GameMode.VISUAL_PATTERN: return VISUAL_PATTERN_ICON;
-    case GameMode.ODD_ONE_OUT: return '🔍';
+    case GameMode.ODD_ONE_OUT: return ODD_ONE_OUT_ICONS_RANDOM[0]; // Use first icon from the random array for consistency in review
     default: return '❓';
   }
 };

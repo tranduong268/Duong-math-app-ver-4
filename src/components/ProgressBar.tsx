@@ -16,7 +16,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ current, total }) => {
   const rabbitVisualPercentage = Math.min(97, Math.max(3, fillPercentage));
 
   return (
-    <div className="relative w-full bg-gray-200 rounded-full h-6 mb-4 shadow-inner overflow-hidden">
+    <div className="relative w-full bg-gray-200 rounded-full h-5 mb-4 shadow-inner overflow-hidden">
       {/* Fill */}
       <div
         className="bg-pink-500 h-full rounded-full transition-all duration-300 ease-out"
@@ -33,7 +33,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ current, total }) => {
         className="absolute text-xl transition-all duration-300 ease-out" // text-xl for rabbit
         style={{
           left: `${rabbitVisualPercentage}%`, // Use clamped percentage for visual positioning
-          bottom: '2px', // Adjusted for taller bar (h-6) to prevent clipping
+          bottom: '-2px', // Lowered the rabbit so its feet are on the bottom edge of the bar
           transform: 'translateX(-50%) scaleX(-1)', // Center horizontally then flip to face right
           zIndex: 1, // Ensure rabbit is above the fill bar
         }}

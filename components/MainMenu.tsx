@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { GameMode, DifficultyLevel } from '../types';
 import { useAudio } from '../src/contexts/AudioContext';
-import { MENU_EMOJIS_RANDOM, COMPARISON_ICON, COUNTING_ICON, REVIEW_ICON, NUMBER_RECOGNITION_ICON, MATCHING_PAIRS_ICON, NUMBER_SEQUENCE_ICONS, VISUAL_PATTERN_ICON } from '../constants';
+import { MENU_EMOJIS_RANDOM, COMPARISON_ICON, COUNTING_ICON, REVIEW_ICON, NUMBER_RECOGNITION_ICON, MATCHING_PAIRS_ICON, NUMBER_SEQUENCE_ICONS, VISUAL_PATTERN_ICON, ODD_ONE_OUT_ICONS_RANDOM } from '../constants';
 
 interface MainMenuProps {
   onStartGame: (mode: GameMode) => void;
@@ -14,6 +15,7 @@ interface MainMenuProps {
 
 const getRandomEmoji = () => MENU_EMOJIS_RANDOM[Math.floor(Math.random() * MENU_EMOJIS_RANDOM.length)];
 const getRandomNumberSequenceIcon = () => NUMBER_SEQUENCE_ICONS[Math.floor(Math.random() * NUMBER_SEQUENCE_ICONS.length)];
+const getRandomOddOneOutIcon = () => ODD_ONE_OUT_ICONS_RANDOM[Math.floor(Math.random() * ODD_ONE_OUT_ICONS_RANDOM.length)];
 
 interface MenuItem {
   mode: GameMode | 'REVIEW' | 'RESET' | 'DIFFICULTY_MAM' | 'DIFFICULTY_CHOI';
@@ -70,7 +72,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onShowReview, totalSta
       { mode: GameMode.MATCHING_PAIRS, text: "Tìm Cặp Ghép", emoji: MATCHING_PAIRS_ICON, bgColorClass: 'bg-orange-400', onClick: () => handleStartGameWithSound(GameMode.MATCHING_PAIRS) },
       { mode: GameMode.NUMBER_SEQUENCE, text: GameMode.NUMBER_SEQUENCE, emoji: getRandomNumberSequenceIcon(), bgColorClass: 'bg-pink-400', onClick: () => handleStartGameWithSound(GameMode.NUMBER_SEQUENCE) },
       { mode: GameMode.VISUAL_PATTERN, text: GameMode.VISUAL_PATTERN, emoji: VISUAL_PATTERN_ICON, bgColorClass: 'bg-cyan-400', onClick: () => handleStartGameWithSound(GameMode.VISUAL_PATTERN) },
-      { mode: GameMode.ODD_ONE_OUT, text: GameMode.ODD_ONE_OUT, emoji: '🔍', bgColorClass: 'bg-indigo-400', onClick: () => handleStartGameWithSound(GameMode.ODD_ONE_OUT) },
+      { mode: GameMode.ODD_ONE_OUT, text: GameMode.ODD_ONE_OUT, emoji: getRandomOddOneOutIcon(), bgColorClass: 'bg-indigo-400', onClick: () => handleStartGameWithSound(GameMode.ODD_ONE_OUT) },
       { mode: 'REVIEW', text: "Xem Lại Lỗi Sai", emoji: REVIEW_ICON, bgColorClass: 'bg-red-400', colSpanClass: 'sm:col-span-2', onClick: handleShowReviewWithSound },
     ];
     setGameModeItems(items);

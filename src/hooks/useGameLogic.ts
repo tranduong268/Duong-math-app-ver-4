@@ -42,15 +42,16 @@ const useGameLogic = ({ mode, difficulty, unlockedSetIds, recentlyUsedIcons, onE
   const resetGameState = useCallback(() => {
     setIsLoading(true);
     let questionsToGenerate = NUM_QUESTIONS_PER_ROUND;
-    if (mode === GameMode.NUMBER_SEQUENCE && difficulty === DifficultyLevel.PRE_SCHOOL_MAM) {
-      questionsToGenerate = 15;
+    if (mode === GameMode.VISUAL_PATTERN) {
+        questionsToGenerate = difficulty === DifficultyLevel.PRE_SCHOOL_MAM ? VISUAL_PATTERN_QUESTIONS_MAM : VISUAL_PATTERN_QUESTIONS_CHOI;
+    } else if (mode === GameMode.ODD_ONE_OUT) {
+        questionsToGenerate = difficulty === DifficultyLevel.PRE_SCHOOL_MAM ? ODD_ONE_OUT_QUESTIONS_MAM : ODD_ONE_OUT_QUESTIONS_CHOI;
+    } else if (mode === GameMode.NUMBER_SEQUENCE) {
+        questionsToGenerate = difficulty === DifficultyLevel.PRE_SCHOOL_MAM ? 10 : 15;
     } else if (mode === GameMode.COMPARISON && difficulty === DifficultyLevel.PRE_SCHOOL_CHOI) {
       questionsToGenerate = 25;
-    } else if (mode === GameMode.VISUAL_PATTERN) {
-      questionsToGenerate = difficulty === DifficultyLevel.PRE_SCHOOL_MAM ? VISUAL_PATTERN_QUESTIONS_MAM : VISUAL_PATTERN_QUESTIONS_CHOI;
-    } else if (mode === GameMode.ODD_ONE_OUT) {
-      questionsToGenerate = difficulty === DifficultyLevel.PRE_SCHOOL_MAM ? ODD_ONE_OUT_QUESTIONS_MAM : ODD_ONE_OUT_QUESTIONS_CHOI;
     }
+
     setNumQuestionsForRound(questionsToGenerate);
 
     const { questions: newQuestions, iconsUsedInRound } = generateQuestionsForRound(

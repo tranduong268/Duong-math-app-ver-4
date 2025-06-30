@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { audioService } from '../services/audioService';
 import { SoundKey } from '../audio/audioAssets';
@@ -36,6 +35,25 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     audioService.setMutedState(isMuted);
   }, [isMuted]);
+
+  // Effect to handle browser tab visibility changes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      // If the page becomes visible again, wake up the audio context.
+      // This is crucial for mobile browsers that suspend audio when the tab is not active.
+      if (document.visibilityState === 'visible') {
+        audioService.wakeupAudio();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []); // Empty dependency array means this effect runs only once on mount and unmount
+
 
   const playSound = useCallback((key: SoundKey) => {
     audioService.playSound(key);

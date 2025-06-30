@@ -48,6 +48,28 @@ export interface ComparisonQuestion extends BaseQuestion {
 
 export type ShapeType = string; // Emoji string
 
+// New interface for rich icon data, to be used by OddOneOut and VisualPattern
+export interface IconData {
+  emoji: ShapeType;
+  name: string; // Vietnamese name for explanations
+  primaryCategory: 'animal' | 'plant' | 'food' | 'drink' | 'vehicle' | 'clothing' | 'tool' | 'household' | 'nature' | 'celestial' | 'activity' | 'technology' | 'toy' | 'instrument' | 'building' | 'misc' | 'shape_color';
+  subCategory?: 'mammal' | 'bird' | 'reptile' | 'amphibian' | 'fish' | 'insect' | 'invertebrate' | 'fruit' | 'vegetable' | 'flower' | 'tree' | 'dish' | 'dessert' | 'furniture' | 'appliance' | 'land_vehicle' | 'water_vehicle' | 'air_vehicle' | 'sports_equipment' | 'school_supply' | 'shape';
+  tertiaryCategory?: 'pet' | 'livestock' | 'wild_animal' | 'poultry';
+  attributes: {
+    color?: ('red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'brown' | 'black' | 'white' | 'gray' | 'multi_color')[];
+    is_living_organism?: boolean;
+    is_edible?: boolean;
+    environment?: 'land' | 'water' | 'sky' | 'underwater' | 'indoor' | 'space';
+    can_fly?: boolean;
+    propulsion?: 'road' | 'rail';
+    diet?: 'carnivore' | 'herbivore' | 'omnivore';
+    is_real?: boolean;
+    temperature?: 'hot' | 'cold';
+    power_source?: 'electric' | 'manual';
+    function?: 'write' | 'cut' | 'cook' | 'eat' | 'sit' | 'clean';
+  }
+}
+
 export interface CountingQuestion extends BaseQuestion {
   type: 'counting';
   shapes: ShapeType[]; 
@@ -104,6 +126,7 @@ export type VisualContent = ShapeType | {
     rotation?: number; // degrees
     scale?: number; // multiplier
     flipHorizontal?: boolean;
+    flipVertical?: boolean;
 };
 
 // Represents one step in the displayed sequence.
@@ -122,31 +145,31 @@ export interface VisualPatternOption {
 }
 
 export type VisualPatternRuleType =
-  // Mầm (existing)
-  | 'M_ABAB' | 'M_AABB' | 'M_ABC' | 'M_AAB' | 'M_ABB'
+  // Mầm (existing + new)
+  | 'M_ABAB' | 'M_AABB' | 'M_ABC' | 'M_AAB' | 'M_ABB' | 'M_ABBA'
+  | 'M_COLOR_PATTERN' | 'M_CATEGORY_ALTERNATE'
+  | 'M_MISSING_MIDDLE' | 'M_SIZE_PATTERN' // New for Mầm
   // Chồi - Sequence-based (existing + new)
-  | 'C_ABAC' | 'C_AABCC' | 'C_ABCD' | 'C_ABCBA' | 'C_CENTER_MIRROR_X'
-  | 'C_INTERLEAVING_PROGRESSION' // A-X, A-Y... (anchor with changing element)
+  | 'C_ABAC' | 'C_AABCC' | 'C_ABCD' | 'C_ABCBA' | 'C_INTERLEAVING_PROGRESSION'
+  | 'C_MISSING_MIDDLE' // New for Chồi
   // Chồi - Quantity-based (existing + new)
-  | 'C_PROGRESSIVE_QTY' // X, XX, XXX
-  | 'C_FIBONACCI_QTY'
-  | 'C_DOUBLING_QTY'
-  | 'C_INTERLEAVING_QTY'
-  // Chồi - Transformation-based (New)
-  | 'T_GRID_MOVE'
-  | 'T_ROTATE'
-  | 'T_FLIP'
-  | 'T_SCALE'
+  | 'C_PROGRESSIVE_QTY' | 'C_DOUBLING_QTY' | 'C_INTERLEAVING_QTY' | 'C_FIBONACCI_QTY'
+  | 'C_NON_LINEAR_QTY' // New for Chồi
+  // Chồi - Transformation-based (existing + new)
+  | 'T_GRID_MOVE' | 'T_ROTATE' | 'T_FLIP' | 'T_SCALE' | 'C_CENTER_MIRROR_X'
   // Chồi - Combined Transformations
   | 'CT_SEQUENCE_AND_MOVE'
-  | 'CT_MOVE_AND_ROTATE';
+  | 'CT_MOVE_AND_ROTATE'
+  | 'CT_ROTATE_AND_SCALE' // New for Chồi
+  // Chồi - New Logic-based
+  | 'C_MATRIX_LOGIC_2X2';
 
 
 export interface VisualPatternQuestion extends BaseQuestion {
   type: 'visual_pattern';
   ruleType: VisualPatternRuleType;
-  // This will be an array of states to display.
-  displayedSequence: PatternDisplayStep[];
+  // This can now contain 'null' for the 'missing middle' rule.
+  displayedSequence: (PatternDisplayStep | null)[];
   options: VisualPatternOption[];
   promptText: string;
   explanation: string; // The logic behind the correct answer

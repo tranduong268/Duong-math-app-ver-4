@@ -1,18 +1,20 @@
-
 import { AudioAssets, SoundKey } from "../audio/audioAssets";
+
+const POOL_SIZE = 10; // Number of audio players in the pool
 
 class AudioService {
   private audioCache: Map<string, HTMLAudioElement> = new Map();
+  private audioPool: HTMLAudioElement[] = [];
+  private poolIndex: number = 0;
   private backgroundMusic: HTMLAudioElement | null = null;
   private isMuted: boolean = false;
   private masterVolume: number = 1.0;
-
-  // Re-architected state for robust audio unlocking
   private hasInteracted: boolean = false;
   private pendingMusicKey: SoundKey | null = null;
 
   constructor() {
     this.preload();
+    this.createAudioPool();
   }
 
   preload() {
@@ -36,13 +38,19 @@ class AudioService {
       audio.load();
   }
 
-  // This public method should be called on the first user interaction (e.g., click).
-  // It "unlocks" the browser's audio context, allowing sounds to be played programmatically.
+  private createAudioPool() {
+    for (let i = 0; i < POOL_SIZE; i++) {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        this.audioPool.push(audio);
+    }
+  }
+  
   public userHasInteracted = () => {
     if (this.hasInteracted) return;
     this.hasInteracted = true;
+    this.wakeupAudio(); // Initial wakeup
     
-    // Play any music that was queued up before the interaction.
     if (this.pendingMusicKey) {
       const keyToPlay = this.pendingMusicKey;
       this.pendingMusicKey = null;
@@ -50,15 +58,41 @@ class AudioService {
     }
   };
 
+  public wakeupAudio = () => {
+    if (!this.hasInteracted) return;
+    // Play a tiny, silent audio file on a pooled player. This is the most robust way
+    // to keep the audio context alive or wake it up after an interruption.
+    const player = this.audioPool[this.poolIndex];
+    if (player && player.paused) {
+        // A very short, silent data URI.
+        player.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+        player.volume = 0;
+        player.play().catch(() => {}); // Ignore errors, this is just for wakeup
+    }
+  }
+
   playSound(key: SoundKey) {
-    if (this.isMuted) return;
+    if (this.isMuted || !this.hasInteracted) return;
 
     const asset = AudioAssets[key];
     if (!asset) {
       console.warn(`Sound key "${key}" not found.`);
       return;
     }
-
+    
+    // For sounds that don't need to overlap rapidly (like typing), we can use a simpler method
+    const nonOverlappingSounds: SoundKey[] = ['TYPE', 'BUTTON_CLICK', 'DECISION'];
+    if (nonOverlappingSounds.includes(key)) {
+        let path: string = Array.isArray(asset.path) ? asset.path[0] : asset.path;
+        const audio = this.audioCache.get(path);
+        if(audio) {
+            audio.currentTime = 0;
+            audio.volume = (asset.volume ?? 1.0) * this.masterVolume;
+            audio.play().catch(e => { if(e.name !== 'NotAllowedError') console.error(`Error playing simple sound ${path}:`, e)});
+        }
+        return;
+    }
+    
     let path: string;
     if (Array.isArray(asset.path)) {
       path = asset.path[Math.floor(Math.random() * asset.path.length)];
@@ -66,27 +100,29 @@ class AudioService {
       path = asset.path;
     }
     
-    const originalAudio = this.audioCache.get(path);
-
-    if (originalAudio) {
-      // Cloning the audio node is crucial for short, rapid-fire sound effects.
-      // It allows multiple instances of the same sound to overlap without cutting each other off.
-      const soundToPlay = originalAudio.cloneNode() as HTMLAudioElement;
-      soundToPlay.volume = originalAudio.volume; // Volume is not always preserved on clone
-      soundToPlay.play().catch(error => {
-        // Errors are expected if the user hasn't interacted yet. We can safely ignore NotAllowedError.
-        if (error.name !== 'NotAllowedError') {
-             console.error(`Error playing sound ${path}:`, error);
-        }
-      });
-    } else {
+    const originalAudioData = this.audioCache.get(path);
+    if (!originalAudioData) {
        console.error(`Audio element for path ${path} not found in cache during playSound.`);
+       return;
     }
+
+    // Use the pool for overlapping sounds
+    this.poolIndex = (this.poolIndex + 1) % POOL_SIZE;
+    const player = this.audioPool[this.poolIndex];
+    
+    player.src = originalAudioData.src;
+    player.volume = originalAudioData.volume;
+    player.loop = originalAudioData.loop;
+    player.currentTime = 0;
+    
+    player.play().catch(error => {
+      if (error.name !== 'NotAllowedError') {
+           console.error(`Error playing pooled sound ${path}:`, error);
+      }
+    });
   }
 
   playMusic(key: SoundKey) {
-    // If the user hasn't interacted with the page yet, we can't reliably play audio.
-    // We'll queue this music key to be played once interaction occurs.
     if (!this.hasInteracted) {
       this.pendingMusicKey = key;
       return;
@@ -106,7 +142,6 @@ class AudioService {
         return;
     }
     
-    // If this music is already the active one, just ensure it's playing (if not muted).
     if (this.backgroundMusic === newMusicElement) {
         if (!this.isMuted && this.backgroundMusic.paused) {
              this.backgroundMusic.play().catch(error => console.error(`Error resuming music ${musicPath}:`, error));
@@ -114,13 +149,11 @@ class AudioService {
         return;
     }
 
-    // Stop any different music that might be playing.
     if (this.backgroundMusic) {
       this.backgroundMusic.pause();
       this.backgroundMusic.currentTime = 0;
     }
     
-    // Set the new music and play it if not muted.
     this.backgroundMusic = newMusicElement;
     if (!this.isMuted) {
       this.backgroundMusic.currentTime = 0;
@@ -133,19 +166,16 @@ class AudioService {
       this.backgroundMusic.pause();
       this.backgroundMusic.currentTime = 0;
     }
-    // Also clear any pending music that hasn't started
     this.pendingMusicKey = null;
   }
 
   toggleMute() {
-    // Ensure the audio context is active before trying to programmatically change audio state.
     this.userHasInteracted();
     this.isMuted = !this.isMuted;
     
     if (this.isMuted) {
       if (this.backgroundMusic) this.backgroundMusic.pause();
     } else {
-      // Un-muted: resume background music if it was paused due to muting.
       if (this.backgroundMusic && this.backgroundMusic.paused) {
         this.backgroundMusic.play().catch(e => console.error("Error resuming music on unmute:", e));
       }

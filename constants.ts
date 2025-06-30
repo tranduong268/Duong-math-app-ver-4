@@ -1,10 +1,10 @@
 import { ImageSet, ShapeType } from './types';
 
 export const NUM_QUESTIONS_PER_ROUND = 20; // Base number, can be overridden by specific modes/difficulties
-export const VISUAL_PATTERN_QUESTIONS_MAM = 20;
-export const VISUAL_PATTERN_QUESTIONS_CHOI = 25;
-export const ODD_ONE_OUT_QUESTIONS_MAM = 15;
-export const ODD_ONE_OUT_QUESTIONS_CHOI = 20;
+export const VISUAL_PATTERN_QUESTIONS_MAM = 10;
+export const VISUAL_PATTERN_QUESTIONS_CHOI = 15;
+export const ODD_ONE_OUT_QUESTIONS_MAM = 10;
+export const ODD_ONE_OUT_QUESTIONS_CHOI = 15;
 
 
 export const MAX_SESSIONS_TO_STORE = 3;
@@ -40,6 +40,7 @@ export const NUMBER_RECOGNITION_ICON = '🧐';
 export const MATCHING_PAIRS_ICON = '🔗';
 export const NUMBER_SEQUENCE_ICONS: string[] = ['📊', '📈', '📉', '🔢']; 
 export const VISUAL_PATTERN_ICON = '🖼️'; 
+export const ODD_ONE_OUT_ICONS_RANDOM: string[] = ['🔍', '🔎', '🤔', '🧐', '💡', '❓', '🧩']; // New random icons for Odd One Out
 export const REVIEW_ICON = '📝';
 
 
@@ -75,7 +76,7 @@ export const INITIAL_COUNTING_ICONS: ShapeType[] = [
   // Tools (ensure no problematic ones)
   '🔨', '🔧', '🔩', '🛠️', 
   // Nature
-  '🌳', '🌲', '🌿', '🌸', '🌻', '🍁', '🔥', '🥃', '🌍', '☀️',
+  '🌳', '🌲', '🌿', '🌸', '🌻', '🍁', '🔥', '🌍', '☀️',
   '🌙', /*'⭐',*/ '🌈', '🌊', '🌋', '⛰️', '🌵', '🌷', '🌹', '🌼',
   // Food (More)
   '🍕', '🍔', '🍟', '🌭', '🥪', '🥨', '🥐', '🥞', '🧇', '🍳',
@@ -201,6 +202,25 @@ export const INITIAL_COUNTING_ICONS: ShapeType[] = [
   '🧛', // Vampire
   '🧟', // Zombie
   // --- END OF NEW ICONS ---
+
+  // --- START OF USER REQUESTED ICONS ---
+  // Fruits/Veggies
+  '🍈', // dưa lê
+  // Drinks
+  '🍷', '🍺', '🧋', '🥃',
+  // Vehicles
+  '🚇', '🚄', '🚠', '🏍️',
+  // Activities
+  '🏃', '🏊', '🚣', '🏋️', '🏌️', '🏇', '🧗', '🏄', '🚴', '🪂', '🧘', '🏂',
+  // Clothing
+  '🩴', '🕶️',
+  // Household & Kitchen
+  '🍴', '🥄', '🗄️', '🔪', '🥢',
+  // Technology
+  '⌚', '🖨️', '📹',
+  // School Supplies
+  '📐', '📖',
+  // --- END OF USER REQUESTED ICONS ---
 ];
 
 
